@@ -1,3 +1,5 @@
+package Week1_DesignPatterns.SingletonPattern;
+
 public class SingletonTest {
 
     public static void main(String[] args) {

@@ -1,3 +1,5 @@
+package Week1_DesignPatterns.SingletonPattern;
+
 public class Logger {
 
     // Private static instance
