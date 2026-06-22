@@ -1,4 +1,4 @@
-package Week1_DesignPatterns.FactoryMethodPattern;
+package Week1.DesignPatterns.FactoryMethodPattern;
 
 public class ExcelDocumentFactory extends DocumentFactory {
 
