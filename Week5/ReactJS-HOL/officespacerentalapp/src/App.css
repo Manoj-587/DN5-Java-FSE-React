@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+  margin: 30px;
+}
+
+.office-card {
+  margin-bottom: 40px;
+}
+
+img {
+  border-radius: 8px;
+}

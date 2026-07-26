@@ -1,0 +1,42 @@
+.container{
+    display:flex;
+    justify-content:center;
+    margin-top:60px;
+    font-family:Arial;
+}
+
+.column{
+    width:300px;
+    padding:20px;
+    border-right:4px solid green;
+}
+
+.column:last-child{
+    border-right:none;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+}
+
+h1{
+    font-size:35px;
+}
+
+h2{
+    margin-bottom:5px;
+}
+
+h3{
+    margin-bottom:5px;
+}
+
+h4{
+    margin-top:0;
+    font-weight:normal;
+}
+
+p{
+    width:220px;
+}
