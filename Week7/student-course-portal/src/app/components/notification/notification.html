@@ -1,0 +1,8 @@
+<div class="notification-box">
+  <h4>Notifications (component-scoped service)</h4>
+  <ul>
+    <li *ngFor="let msg of notificationService.getMessages()">{{ msg }}</li>
+  </ul>
+  <button (click)="addMessage()">Add Notification</button>
+  <button (click)="clear()">Clear</button>
+</div>

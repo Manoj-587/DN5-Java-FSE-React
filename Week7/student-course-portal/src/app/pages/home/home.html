@@ -17,9 +17,11 @@
     <p>Searching for: {{ searchTerm }}</p>
   </div>
 
+  <!-- Step 61: live stats from CourseService -->
   <div class="stats">
     <div class="stat-card">
-      <span class="stat-value">12</span>
+      <!-- Step 61: courseCount driven by this.courseService.getCourses().length -->
+      <span class="stat-value">{{ courseCount }}</span>
       <span class="stat-label">Courses Available</span>
     </div>
     <div class="stat-card">
@@ -31,5 +33,8 @@
       <span class="stat-label">GPA</span>
     </div>
   </div>
+
+  <!-- Step 62: CourseSummaryWidget — second component sharing the same CourseService singleton -->
+  <app-course-summary-widget></app-course-summary-widget>
 
 </section>

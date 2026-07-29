@@ -3,6 +3,7 @@ import { NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault, NgIf, TitleC
 import { Course } from '../../models/course.model';
 import { CreditLabelPipe } from '../../pipes/credit-label-pipe';
 import { HighlightDirective } from '../../directives/highlight';
+import { EnrollmentService } from '../../services/enrollment';
 
 @Component({
   selector: 'app-course-card',
@@ -18,20 +19,34 @@ export class CourseCardComponent implements OnChanges {
   // Step 37: configurable highlight color passed from parent
   @Input() highlightColor = 'lightyellow';
 
-  // Step 21: @Output enrollRequested
+  // Step 21: @Output enrollRequested — kept for backward compat with CourseListComponent
   @Output() enrollRequested = new EventEmitter<number>();
 
   // Step 31: expand/collapse toggle
   isExpanded = false;
+
+  // Step 65: inject EnrollmentService to manage enroll/unenroll state
+  constructor(private enrollmentService: EnrollmentService) {}
 
   // Step 18: ngOnChanges
   ngOnChanges(changes: SimpleChanges): void {
     console.log('CourseCardComponent input changed:', changes);
   }
 
-  // Step 21: emit course id
+  // Step 65: toggle enroll/unenroll via EnrollmentService
   onEnroll(): void {
+    if (this.enrollmentService.isEnrolled(this.course.id)) {
+      this.enrollmentService.unenroll(this.course.id);
+    } else {
+      this.enrollmentService.enroll(this.course.id);
+    }
+    // Also emit for parent (CourseListComponent selectedCourseId — Hands-On 2)
     this.enrollRequested.emit(this.course.id);
+  }
+
+  // Step 65: used in template to toggle button label Enroll ↔ Unenroll
+  isEnrolled(): boolean {
+    return this.enrollmentService.isEnrolled(this.course.id);
   }
 
   // Step 31: toggle expanded state
@@ -43,9 +58,9 @@ export class CourseCardComponent implements OnChanges {
   // by centralising all class logic in one place instead of inline expressions.
   get cardClasses(): Record<string, boolean> {
     return {
-      'card--enrolled': !!this.course?.enrolled,      // Step 29
-      'card--full':     (this.course?.credits ?? 0) >= 4, // Step 29
-      'expanded':       this.isExpanded                   // Step 31
+      'card--enrolled': this.isEnrolled(),                  // Step 29 + 65
+      'card--full':     (this.course?.credits ?? 0) >= 4,   // Step 29
+      'expanded':       this.isExpanded                      // Step 31
     };
   }
 

@@ -1,4 +1,18 @@
 <section class="student-profile">
   <h2>Student Profile</h2>
   <p>View and manage your profile information here.</p>
+
+  <!-- Step 66: enrolled courses from EnrollmentService.getEnrolledCourses() -->
+  <h3>Enrolled Courses</h3>
+
+  <p *ngIf="enrolledCourses.length === 0" class="no-courses">
+    You have not enrolled in any courses yet. Go to the Courses page to enroll.
+  </p>
+
+  <ul class="enrolled-list" *ngIf="enrolledCourses.length > 0">
+    <li *ngFor="let course of enrolledCourses" class="enrolled-item">
+      <strong>{{ course.name }}</strong>
+      <span class="course-meta">{{ course.code }} &bull; {{ course.credits }} credits</span>
+    </li>
+  </ul>
 </section>

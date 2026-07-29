@@ -24,13 +24,16 @@
     <button class="btn-details" (click)="toggleExpand()">
       {{ isExpanded ? 'Hide Details' : 'Show Details' }}
     </button>
-    <button class="btn-enroll" (click)="onEnroll()">Enroll</button>
+    <!-- Step 65: Enroll ↔ Unenroll toggle driven by EnrollmentService.isEnrolled() -->
+    <button class="btn-enroll" [class.btn-unenroll]="isEnrolled()" (click)="onEnroll()">
+      {{ isEnrolled() ? 'Unenroll' : 'Enroll' }}
+    </button>
   </div>
 
   <!-- Step 31: expanded section -->
   <div class="card-details" *ngIf="isExpanded">
     <p>Status: {{ course.gradeStatus | titlecase }}</p>
-    <p>Enrolled: {{ course.enrolled ? 'Yes' : 'No' }}</p>
+    <p>Enrolled: {{ isEnrolled() ? 'Yes' : 'No' }}</p>
   </div>
 
 </div>

@@ -1,0 +1,9 @@
+<div class="summary-widget">
+  <h3>Course Summary Widget</h3>
+  <p>Total courses (from shared CourseService): <strong>{{ courseCount }}</strong></p>
+  <ul>
+    <li *ngFor="let name of courseNames">{{ name }}</li>
+  </ul>
+  <button class="btn-add-test" (click)="addTestCourse()">+ Add Test Course</button>
+  <small>Adding a course here updates the count on the Home page stats — proving singleton behaviour.</small>
+</div>
