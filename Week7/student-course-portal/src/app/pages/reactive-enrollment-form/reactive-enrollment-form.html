@@ -1,0 +1,142 @@
+<section class="enrollment-section">
+  <h2>Reactive Course Enrollment</h2>
+
+  <!-- Success message -->
+  <div class="success-msg" *ngIf="submitted">
+    Enrollment request submitted successfully!
+  </div>
+
+  <!-- Step 50: [formGroup] binding — NO ngModel used anywhere -->
+  <form [formGroup]="enrollForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <!-- ── Student Name ── -->
+    <div class="form-group">
+      <label for="studentName">Student Name</label>
+      <input
+        id="studentName"
+        type="text"
+        formControlName="studentName"
+        placeholder="Enter your name" />
+
+      <!-- Step 44: errors shown only after control is touched -->
+      <span class="error"
+        *ngIf="f['studentName'].touched && f['studentName'].errors?.['required']">
+        Name is required.
+      </span>
+      <span class="error"
+        *ngIf="f['studentName'].touched && f['studentName'].errors?.['minlength']">
+        Name must be at least 3 characters.
+      </span>
+    </div>
+
+    <!-- ── Student Email ── -->
+    <div class="form-group">
+      <label for="studentEmail">Student Email</label>
+      <input
+        id="studentEmail"
+        type="email"
+        formControlName="studentEmail"
+        placeholder="Enter your email" />
+
+      <span class="error"
+        *ngIf="f['studentEmail'].touched && f['studentEmail'].errors?.['required']">
+        Email is required.
+      </span>
+      <span class="error"
+        *ngIf="f['studentEmail'].touched && f['studentEmail'].errors?.['email']">
+        Invalid email address.
+      </span>
+      <!-- Step 55: async validator message -->
+      <span class="error"
+        *ngIf="f['studentEmail'].touched && f['studentEmail'].errors?.['emailTaken']">
+        Email already taken.
+      </span>
+      <span class="hint"
+        *ngIf="f['studentEmail'].pending">
+        Checking email availability...
+      </span>
+    </div>
+
+    <!-- ── Course ID ── -->
+    <div class="form-group">
+      <label for="courseId">Course ID</label>
+      <input
+        id="courseId"
+        type="text"
+        formControlName="courseId"
+        placeholder="Enter course ID" />
+
+      <span class="error"
+        *ngIf="f['courseId'].touched && f['courseId'].errors?.['required']">
+        Course ID is required.
+      </span>
+      <!-- Step 54: custom validator message -->
+      <span class="error"
+        *ngIf="f['courseId'].touched && f['courseId'].errors?.['noCourseCode']">
+        Course code starting with XX is not allowed.
+      </span>
+    </div>
+
+    <!-- ── Preferred Semester ── -->
+    <div class="form-group">
+      <label for="preferredSemester">Preferred Semester</label>
+      <select id="preferredSemester" formControlName="preferredSemester">
+        <option value="Odd">Odd</option>
+        <option value="Even">Even</option>
+      </select>
+    </div>
+
+    <!-- ── Agree To Terms ── -->
+    <div class="form-group form-group--checkbox">
+      <input
+        id="agreeToTerms"
+        type="checkbox"
+        formControlName="agreeToTerms" />
+      <label for="agreeToTerms">I agree to the terms and conditions</label>
+
+      <span class="error"
+        *ngIf="f['agreeToTerms'].touched && f['agreeToTerms'].errors?.['required']">
+        Please accept the terms.
+      </span>
+    </div>
+
+    <!-- ── Step 56: FormArray – Additional Courses ── -->
+    <div class="form-group">
+      <label>Additional Courses</label>
+
+      <!-- Step 58: *ngFor over additionalCourses getter -->
+      <div
+        *ngFor="let ctrl of additionalCourses.controls; let i = index"
+        class="additional-course-row">
+        <input
+          type="text"
+          [formControl]="ctrl"
+          placeholder="Course name" />
+        <button type="button" class="btn-remove" (click)="removeCourse(i)">
+          Remove
+        </button>
+        <span class="error"
+          *ngIf="ctrl.touched && ctrl.errors?.['required']">
+          Course name is required.
+        </span>
+      </div>
+
+      <!-- Step 57: Add Another Course button -->
+      <button type="button" class="btn-add" (click)="addCourse()">
+        + Add Another Course
+      </button>
+    </div>
+
+    <!-- ── Actions ── -->
+    <div class="form-actions">
+      <!-- Step 51: disabled while form is invalid -->
+      <button type="submit" class="btn-submit" [disabled]="enrollForm.invalid">
+        Submit
+      </button>
+      <button type="button" class="btn-reset" (click)="onReset()">
+        Reset
+      </button>
+    </div>
+
+  </form>
+</section>
