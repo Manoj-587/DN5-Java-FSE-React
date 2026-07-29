@@ -1,0 +1,29 @@
+.course-list {
+  padding: 40px 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.course-list h2 {
+  font-size: 2rem;
+  color: #1a237e;
+  margin-bottom: 8px;
+}
+
+.course-list p {
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.selected-info {
+  font-weight: bold;
+  color: #2e7d32;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}

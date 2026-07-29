@@ -1,6 +1,21 @@
 <section class="home">
-  <h2>Welcome to the Student Course Portal</h2>
+
+  <!-- Step 11: Interpolation -->
+  <h2>Welcome to {{ portalName }}</h2>
   <p>Manage your courses, track your progress, and stay on top of your academic journey all in one place.</p>
+
+  <!-- Step 12: Property Binding -->
+  <!-- Step 13: Event Binding -->
+  <div class="enroll-section">
+    <button [disabled]="!isPortalActive" (click)="onEnrollClick()">Enroll Now</button>
+    <p *ngIf="message" class="enroll-message">{{ message }}</p>
+  </div>
+
+  <!-- Step 14: Two-way Binding -->
+  <div class="search-section">
+    <input [(ngModel)]="searchTerm" placeholder="Search courses..." />
+    <p>Searching for: {{ searchTerm }}</p>
+  </div>
 
   <div class="stats">
     <div class="stat-card">
@@ -16,4 +31,5 @@
       <span class="stat-label">GPA</span>
     </div>
   </div>
+
 </section>
