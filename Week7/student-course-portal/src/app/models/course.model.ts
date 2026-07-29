@@ -3,4 +3,6 @@ export interface Course {
   name: string;
   code: string;
   credits: number;
+  gradeStatus: 'passed' | 'failed' | 'pending';
+  enrolled: boolean;
 }

@@ -7,12 +7,28 @@
     Selected course ID: {{ selectedCourseId }}
   </p>
 
-  <!-- Step 22: *ngFor with [course] and (enrollRequested) -->
-  <div class="cards-container">
-    <app-course-card
-      *ngFor="let course of courses"
-      [course]="course"
-      (enrollRequested)="onEnroll($event)">
-    </app-course-card>
+  <!-- Step 25: Loading indicator — shown while isLoading is true -->
+  <p *ngIf="isLoading">Loading courses...</p>
+
+  <!-- Step 25 + 26 + 28: Show grid after loading finishes -->
+  <div class="cards-container" *ngIf="!isLoading">
+
+    <!-- Step 28: ng-template sibling of ng-container that references it -->
+    <ng-template #noCourses>
+      <p>No courses available.</p>
+    </ng-template>
+
+    <ng-container *ngIf="courses.length > 0; else noCourses">
+      <!-- Step 26: trackBy: trackByCourseId prevents unnecessary DOM re-rendering -->
+      <!-- Step 34+37: highlightColor passed to card; directive applied on inner div inside card -->
+      <app-course-card
+        *ngFor="let course of courses; let i = index; trackBy: trackByCourseId"
+        [course]="course"
+        [highlightColor]="'lightyellow'"
+        (enrollRequested)="onEnroll($event)">
+      </app-course-card>
+    </ng-container>
+
   </div>
+
 </section>

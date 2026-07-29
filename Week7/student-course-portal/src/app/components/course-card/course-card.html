@@ -1,7 +1,36 @@
-<div class="course-card">
+<!-- Step 29+31+32: [ngClass] uses getter; Step 30: [ngStyle] sets border color -->
+<!-- Step 34: appHighlight applied on the actual visible div so mouseenter/mouseleave fire on it -->
+<div class="course-card"
+     [ngClass]="cardClasses"
+     [ngStyle]="borderStyle"
+     [appHighlight]="highlightColor">
+
   <p class="course-id">ID: {{ course.id }}</p>
   <h3 class="course-name">{{ course.name }}</h3>
   <p class="course-code">Code: {{ course.code }}</p>
-  <p class="course-credits">Credits: {{ course.credits }}</p>
-  <button (click)="onEnroll()">Enroll</button>
+
+  <!-- Step 36: creditLabel pipe -->
+  <p class="course-credits">Credits: {{ course.credits | creditLabel }}</p>
+
+  <!-- Step 27: *ngSwitch grade badge -->
+  <span [ngSwitch]="course.gradeStatus">
+    <span *ngSwitchCase="'passed'"  class="badge badge--passed">Passed</span>
+    <span *ngSwitchCase="'failed'"  class="badge badge--failed">Failed</span>
+    <span *ngSwitchDefault          class="badge badge--pending">Pending</span>
+  </span>
+
+  <!-- Step 31: Show Details toggle -->
+  <div class="card-actions">
+    <button class="btn-details" (click)="toggleExpand()">
+      {{ isExpanded ? 'Hide Details' : 'Show Details' }}
+    </button>
+    <button class="btn-enroll" (click)="onEnroll()">Enroll</button>
+  </div>
+
+  <!-- Step 31: expanded section -->
+  <div class="card-details" *ngIf="isExpanded">
+    <p>Status: {{ course.gradeStatus | titlecase }}</p>
+    <p>Enrolled: {{ course.enrolled ? 'Yes' : 'No' }}</p>
+  </div>
+
 </div>
