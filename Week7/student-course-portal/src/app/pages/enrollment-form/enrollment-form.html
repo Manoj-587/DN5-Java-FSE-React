@@ -1,0 +1,114 @@
+<section class="enrollment-section">
+  <h2>Course Enrollment</h2>
+
+  <!-- Success message shown after valid submission -->
+  <div class="success-msg" *ngIf="submitted">
+    Enrollment request submitted successfully!
+  </div>
+
+  <form #enrollForm="ngForm" (ngSubmit)="onSubmit(enrollForm)" novalidate>
+
+    <!-- ── Student Name ── -->
+    <div class="form-group">
+      <label for="studentName">Student Name</label>
+      <input
+        id="studentName"
+        type="text"
+        name="studentName"
+        [(ngModel)]="studentName"
+        #nameCtrl="ngModel"
+        required
+        minlength="3"
+        placeholder="Enter your name" />
+
+      <!-- touched is used (not dirty) so errors only appear after the user has visited the field -->
+      <span class="error" *ngIf="nameCtrl.touched && nameCtrl.errors?.['required']">
+        Name is required.
+      </span>
+      <span class="error" *ngIf="nameCtrl.touched && nameCtrl.errors?.['minlength']">
+        Name must be at least 3 characters.
+      </span>
+    </div>
+
+    <!-- ── Student Email ── -->
+    <div class="form-group">
+      <label for="studentEmail">Student Email</label>
+      <input
+        id="studentEmail"
+        type="email"
+        name="studentEmail"
+        [(ngModel)]="studentEmail"
+        #emailCtrl="ngModel"
+        required
+        email
+        placeholder="Enter your email" />
+
+      <span class="error" *ngIf="emailCtrl.touched && emailCtrl.errors?.['required']">
+        Email is required.
+      </span>
+      <span class="error" *ngIf="emailCtrl.touched && emailCtrl.errors?.['email']">
+        Invalid email address.
+      </span>
+    </div>
+
+    <!-- ── Course ID ── -->
+    <div class="form-group">
+      <label for="courseId">Course ID</label>
+      <input
+        id="courseId"
+        type="number"
+        name="courseId"
+        [(ngModel)]="courseId"
+        #courseIdCtrl="ngModel"
+        required
+        placeholder="Enter course ID" />
+
+      <span class="error" *ngIf="courseIdCtrl.touched && courseIdCtrl.errors?.['required']">
+        Course ID is required.
+      </span>
+    </div>
+
+    <!-- ── Preferred Semester ── -->
+    <!-- name attribute is mandatory — Angular uses it to register the control in the form group -->
+    <div class="form-group">
+      <label for="preferredSemester">Preferred Semester</label>
+      <select
+        id="preferredSemester"
+        name="preferredSemester"
+        [(ngModel)]="preferredSemester">
+        <option value="Odd">Odd</option>
+        <option value="Even">Even</option>
+      </select>
+    </div>
+
+    <!-- ── Agree To Terms ── -->
+    <div class="form-group form-group--checkbox">
+      <input
+        id="agreeToTerms"
+        type="checkbox"
+        name="agreeToTerms"
+        [(ngModel)]="agreeToTerms"
+        #termsCtrl="ngModel"
+        required />
+      <label for="agreeToTerms">I agree to the terms and conditions</label>
+
+      <span class="error" *ngIf="termsCtrl.touched && termsCtrl.errors?.['required']">
+        Please accept the terms.
+      </span>
+    </div>
+
+    <!-- ── Actions ── -->
+    <div class="form-actions">
+      <!-- Submit disabled while form is invalid -->
+      <button type="submit" class="btn-submit" [disabled]="enrollForm.invalid">
+        Submit
+      </button>
+
+      <!-- Reset clears the form and hides the success message -->
+      <button type="button" class="btn-reset" (click)="onReset(enrollForm)">
+        Reset
+      </button>
+    </div>
+
+  </form>
+</section>
