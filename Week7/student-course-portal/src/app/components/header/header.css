@@ -1,0 +1,28 @@
+header {
+  background-color: #1a237e;
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 1rem;
+}
+
+nav a.active {
+  border-bottom: 2px solid #90caf9;
+}
+
+nav a:hover {
+  color: #90caf9;
+}

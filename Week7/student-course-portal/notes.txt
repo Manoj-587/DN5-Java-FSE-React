@@ -1,0 +1,27 @@
+Angular Project File Descriptions
+===================================
+
+angular.json         - Workspace configuration file that defines build, serve, and test targets for the Angular project.
+tsconfig.json        - Root TypeScript configuration that sets base compiler options inherited by all other tsconfig files.
+tsconfig.app.json    - TypeScript configuration specific to the application build, extending the root tsconfig.json.
+package.json         - Lists project dependencies, devDependencies, and npm scripts (start, build, test).
+src/main.ts          - Entry point of the Angular application; bootstraps the root App component using appConfig.
+src/app/app.config.ts - Defines the application-level providers (router, error listeners) for the standalone bootstrap.
+src/app/app.component.ts - Root component of the application that hosts the header and router-outlet.
+src/index.html       - The single HTML page served to the browser; contains the <app-root> element where Angular mounts.
+
+Production Budgets (angular.json)
+===================================
+Initial bundle:
+  maximumWarning : 500kB
+  maximumError   : 1MB
+
+Any component style:
+  maximumWarning : 4kB
+  maximumError   : 8kB
+
+Build Output
+===================================
+- Running `ng build` generates the dist/ folder.
+- The compiled application entry file is: dist/student-course-portal/browser/main-*.js
+- This file contains the bundled, optimised application code ready for production deployment.
