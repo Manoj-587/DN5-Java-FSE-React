@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { NgClass, NgStyle, NgSwitch, NgSwitchCase, NgSwitchDefault, NgIf, TitleCasePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { Course } from '../../models/course.model';
 import { CreditLabelPipe } from '../../pipes/credit-label-pipe';
 import { HighlightDirective } from '../../directives/highlight';
@@ -25,8 +26,8 @@ export class CourseCardComponent implements OnChanges {
   // Step 31: expand/collapse toggle
   isExpanded = false;
 
-  // Step 65: inject EnrollmentService to manage enroll/unenroll state
-  constructor(private enrollmentService: EnrollmentService) {}
+  // Step 65: inject EnrollmentService; Step 70: inject Router for card click navigation
+  constructor(private enrollmentService: EnrollmentService, private router: Router) {}
 
   // Step 18: ngOnChanges
   ngOnChanges(changes: SimpleChanges): void {
@@ -47,6 +48,11 @@ export class CourseCardComponent implements OnChanges {
   // Step 65: used in template to toggle button label Enroll ↔ Unenroll
   isEnrolled(): boolean {
     return this.enrollmentService.isEnrolled(this.course.id);
+  }
+
+  // Step 70: navigate to /courses/:id when card is clicked
+  goToDetail(): void {
+    this.router.navigate(['courses', this.course.id]);
   }
 
   // Step 31: toggle expanded state

@@ -1,36 +1,45 @@
 import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
-// FormsModule is required to enable template-driven forms (ngModel, ngForm, validators).
-// Without it, Angular does not recognise [(ngModel)] or #ctrl="ngModel" in the template.
 import { FormsModule, NgForm } from '@angular/forms';
+import { EnrollmentService } from '../../services/enrollment';
 
 @Component({
   selector: 'app-enrollment-form',
-  // FormsModule must be in standalone imports — not in a module — for standalone components.
   imports: [FormsModule, NgIf],
   templateUrl: './enrollment-form.html',
   styleUrl: './enrollment-form.css'
 })
 export class EnrollmentFormComponent {
 
-  // Form model properties bound via [(ngModel)]
   studentName      = '';
   studentEmail     = '';
   courseId: number | null = null;
   preferredSemester = 'Odd';
   agreeToTerms     = false;
+  submitted        = false;
+  errorMessage     = '';
 
-  // Controls success message visibility
-  submitted = false;
+  // Step 81: inject EnrollmentService to POST enrollment to db.json
+  constructor(private enrollmentService: EnrollmentService) {}
 
   onSubmit(form: NgForm): void {
-    console.log(form.value);
-    console.log(form.valid);
-    this.submitted = true;
+    if (form.invalid || !this.courseId) return;
+
+    // Step 81: POST new enrollment — createCourse() via EnrollmentService
+    this.enrollmentService.createEnrollment({
+      studentName:  this.studentName,
+      studentEmail: this.studentEmail,
+      courseId:     this.courseId,
+      semester:     this.preferredSemester
+    }).subscribe({
+      next: () => { this.submitted = true; this.errorMessage = ''; },
+      error: () => { this.errorMessage = 'Enrollment failed. Please try again.'; }
+    });
   }
 
   onReset(form: NgForm): void {
     form.resetForm();
-    this.submitted = false;
+    this.submitted    = false;
+    this.errorMessage = '';
   }
 }

@@ -1,9 +1,12 @@
 <!-- Step 29+31+32: [ngClass] uses getter; Step 30: [ngStyle] sets border color -->
 <!-- Step 34: appHighlight applied on the actual visible div so mouseenter/mouseleave fire on it -->
+<!-- Step 70: (click) on the card div navigates to /courses/:id -->
 <div class="course-card"
      [ngClass]="cardClasses"
      [ngStyle]="borderStyle"
-     [appHighlight]="highlightColor">
+     [appHighlight]="highlightColor"
+     (click)="goToDetail()"
+     style="cursor:pointer">
 
   <p class="course-id">ID: {{ course.id }}</p>
   <h3 class="course-name">{{ course.name }}</h3>
@@ -19,13 +22,13 @@
     <span *ngSwitchDefault          class="badge badge--pending">Pending</span>
   </span>
 
-  <!-- Step 31: Show Details toggle -->
+  <!-- Step 31: Show Details toggle — stopPropagation prevents card click from firing -->
   <div class="card-actions">
-    <button class="btn-details" (click)="toggleExpand()">
+    <button class="btn-details" (click)="toggleExpand(); $event.stopPropagation()">
       {{ isExpanded ? 'Hide Details' : 'Show Details' }}
     </button>
     <!-- Step 65: Enroll ↔ Unenroll toggle driven by EnrollmentService.isEnrolled() -->
-    <button class="btn-enroll" [class.btn-unenroll]="isEnrolled()" (click)="onEnroll()">
+    <button class="btn-enroll" [class.btn-unenroll]="isEnrolled()" (click)="onEnroll(); $event.stopPropagation()">
       {{ isEnrolled() ? 'Unenroll' : 'Enroll' }}
     </button>
   </div>

@@ -1,0 +1,15 @@
+<section class="course-detail">
+  <a routerLink="/courses">&larr; Back to Courses</a>
+
+  <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <ng-container *ngIf="course">
+    <h2>{{ course.name }}</h2>
+    <p><strong>ID:</strong> {{ course.id }}</p>
+    <p><strong>Code:</strong> {{ course.code }}</p>
+    <p><strong>Credits:</strong> {{ course.credits }}</p>
+    <p><strong>Grade Status:</strong> {{ course.gradeStatus }}</p>
+  </ng-container>
+
+  <p *ngIf="!course && !errorMessage">Loading course details...</p>
+</section>

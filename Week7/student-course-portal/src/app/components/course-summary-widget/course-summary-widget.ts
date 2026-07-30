@@ -1,12 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { CourseService } from '../../services/course';
-import { Course } from '../../models/course.model';
 
 // Step 62: This component injects the SAME CourseService singleton as HomeComponent.
-// Because CourseService is providedIn:'root', Angular creates only one instance for the
-// entire application. Any mutation (e.g. addCourse) is immediately visible to all
-// components that share this service.
 @Component({
   selector: 'app-course-summary-widget',
   imports: [NgFor],
@@ -23,29 +19,27 @@ export class CourseSummaryWidgetComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    this.refresh();
-  }
+  ngOnInit(): void { this.refresh(); }
 
   refresh(): void {
-    const courses = this.courseService.getCourses();
-    this.courseCount = courses.length;
-    this.courseNames = courses.map(c => c.name);
+    this.courseService.getCourses().subscribe({
+      next: (courses) => {
+        this.courseCount = courses.length;
+        this.courseNames = courses.map(c => c.name);
+        this.cdr.markForCheck();
+      }
+    });
   }
 
-  // Step 62: adds a temporary course to prove singleton — HomeComponent stat updates too
+  // Step 62: POST a test course to prove singleton — uses createCourse() HTTP POST
   addTestCourse(): void {
-    const next = this.courseService.getCourses().length + 1;
-    const testCourse: Course = {
-      id: next + 100,
+    const next = this.courseCount + 1;
+    this.courseService.createCourse({
       name: `Test Course ${next}`,
       code: `TST${next}`,
       credits: 2,
       gradeStatus: 'pending',
       enrolled: false
-    };
-    this.courseService.addCourse(testCourse);
-    this.refresh();
-    this.cdr.markForCheck();
+    }).subscribe({ next: () => this.refresh() });
   }
 }

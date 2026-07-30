@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
+import { forkJoin } from 'rxjs';
 import { EnrollmentService } from '../../services/enrollment';
+import { CourseService } from '../../services/course';
 import { Course } from '../../models/course.model';
 
 @Component({
@@ -11,13 +13,20 @@ import { Course } from '../../models/course.model';
 })
 export class StudentProfileComponent implements OnInit {
 
-  // Step 66: enrolled courses resolved from EnrollmentService
   enrolledCourses: Course[] = [];
 
-  // Step 66: inject EnrollmentService
-  constructor(private enrollmentService: EnrollmentService) {}
+  constructor(
+    private enrollmentService: EnrollmentService,
+    private courseService: CourseService
+  ) {}
 
   ngOnInit(): void {
-    this.enrolledCourses = this.enrollmentService.getEnrolledCourses();
+    const ids = this.enrollmentService.getEnrolledCourseIds();
+    if (ids.length === 0) return;
+
+    // Fetch each enrolled course by id in parallel, then collect results
+    forkJoin(ids.map(id => this.courseService.getCourseById(id))).subscribe({
+      next: (courses) => this.enrolledCourses = courses
+    });
   }
 }

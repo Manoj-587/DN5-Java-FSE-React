@@ -2,33 +2,51 @@
   <h2>Available Courses</h2>
   <p>Browse all available courses below.</p>
 
-  <!-- Step 24: Display selected course ID -->
-  <p class="selected-info" *ngIf="selectedCourseId !== null">
-    Selected course ID: {{ selectedCourseId }}
-  </p>
+  <!-- Step 71: search box — updates URL with ?search=... on input -->
+  <div class="search-bar">
+    <input
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearch()"
+      placeholder="Search courses..."
+      class="search-input" />
+  </div>
 
-  <!-- Step 25: Loading indicator — shown while isLoading is true -->
+  <!-- Step 84: friendly error message from catchError -->
+  <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <!-- Step 25: Loading indicator -->
   <p *ngIf="isLoading">Loading courses...</p>
 
   <!-- Step 25 + 26 + 28: Show grid after loading finishes -->
-  <div class="cards-container" *ngIf="!isLoading">
+  <div class="cards-container" *ngIf="!isLoading && !errorMessage">
 
-    <!-- Step 28: ng-template sibling of ng-container that references it -->
     <ng-template #noCourses>
       <p>No courses available.</p>
     </ng-template>
 
-    <ng-container *ngIf="courses.length > 0; else noCourses">
-      <!-- Step 26: trackBy: trackByCourseId prevents unnecessary DOM re-rendering -->
-      <!-- Step 34+37: highlightColor passed to card; directive applied on inner div inside card -->
+    <ng-container *ngIf="filteredCourses.length > 0; else noCourses">
+      <!-- Step 70: clicking a card navigates to /courses/:id (handled inside CourseCardComponent) -->
       <app-course-card
-        *ngFor="let course of courses; let i = index; trackBy: trackByCourseId"
+        *ngFor="let course of filteredCourses; trackBy: trackByCourseId"
         [course]="course"
         [highlightColor]="'lightyellow'"
         (enrollRequested)="onEnroll($event)">
       </app-course-card>
     </ng-container>
 
+  </div>
+
+  <!-- Step 24: Display selected course ID -->
+  <p class="selected-info" *ngIf="selectedCourseId !== null">
+    Selected course ID: {{ selectedCourseId }}
+  </p>
+
+  <!-- Step 87: switchMap result — students enrolled in the selected course -->
+  <div class="students-panel" *ngIf="enrolledStudents.length > 0">
+    <h3>Students enrolled in course #{{ selectedCourseId }}</h3>
+    <ul>
+      <li *ngFor="let s of enrolledStudents">{{ s.name }} — {{ s.email }}</li>
+    </ul>
   </div>
 
 </section>
